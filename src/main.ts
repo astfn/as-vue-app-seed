@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import registerAppPlugins from './registerAppPlugins';
+import './utils/arms';
 /**
  * style
  */
