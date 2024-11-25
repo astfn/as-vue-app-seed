@@ -39,6 +39,7 @@
     "husky": "^9.1.6",
     "less": "^4.2.0",
     "lint-staged": "^15.2.10",
+    "postcss-px-to-viewport": "^1.1.1",
     "prettier": "^3.3.3",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.8.1",
