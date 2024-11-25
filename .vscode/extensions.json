@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "Vue.volar",
+    "ditorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint"
+  ]
+}

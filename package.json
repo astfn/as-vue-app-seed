@@ -1,0 +1,51 @@
+{
+  "name": "vite-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "build:uat": "vue-tsc -b && vite build --mode uat",
+    "build:prod": "vue-tsc -b && vite build --mode prod",
+    "prepare": "husky install",
+    "format": "prettier --config .prettierrc . --write",
+    "lint": "eslint --config eslint.config.js",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vueuse/core": "^11.1.0",
+    "as-enum": "^1.2.0",
+    "axios": "^1.7.7",
+    "crypto-js": "^4.2.0",
+    "eslint-plugin-vue": "^9.31.0",
+    "globals": "^15.12.0",
+    "lodash": "^4.17.21",
+    "pinia": "^2.2.4",
+    "pinia-plugin-persistedstate": "^4.1.1",
+    "query-string": "^9.1.1",
+    "vant": "^4.9.7",
+    "vue": "^3.5.10",
+    "xss": "^1.0.15"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/lodash": "^4.17.10",
+    "@types/node": "^22.7.5",
+    "@vant/auto-import-resolver": "^1.2.1",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "eslint": "^9.12.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.1.6",
+    "less": "^4.2.0",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.8.1",
+    "unplugin-vue-components": "^0.27.4",
+    "vconsole": "^3.15.1",
+    "vite": "^5.4.8",
+    "vue-router": "^4.4.5",
+    "vue-tsc": "^2.1.6"
+  }
+}
