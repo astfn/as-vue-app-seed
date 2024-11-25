@@ -3,11 +3,23 @@ import vue from '@vitejs/plugin-vue';
 import Components from 'unplugin-vue-components/vite';
 import { VantResolver } from '@vant/auto-import-resolver';
 import postcssPx2viewport from 'postcss-px-to-viewport';
+import { vitePluginVersionMark } from 'vite-plugin-version-mark';
 import { resolve } from 'path';
-
+import dayjs from 'dayjs';
 // https://vitejs.dev/config/
+
 export default defineConfig({
-  plugins: [vue(), Components({ resolvers: [VantResolver()] })],
+  plugins: [
+    vue(),
+    Components({ resolvers: [VantResolver()] }),
+    vitePluginVersionMark({
+      version: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      outputFile: (version) => ({
+        path: 'version.json',
+        content: `{"version":"${version}"}`,
+      }),
+    }),
+  ],
   css: {
     postcss: {
       plugins: [

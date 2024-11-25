@@ -3,6 +3,7 @@ import { App } from 'vue';
 import router from '@/router';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import { versionCheckLoop } from '@/utils/version-diff';
 
 function registerPinia(app: App) {
   const pinia = createPinia();
@@ -12,9 +13,10 @@ function registerPinia(app: App) {
 
 export default {
   install(app: App<Element>) {
-    // if (import.meta.env.MODE === 'development') {
-    new VConsole();
-    // }
+    versionCheckLoop();
+    if (import.meta.env.MODE === 'development') {
+      new VConsole();
+    }
     registerPinia(app);
     app.use(router);
   },

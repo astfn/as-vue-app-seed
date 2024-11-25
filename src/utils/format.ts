@@ -1,5 +1,6 @@
 // import { sm4 } from 'gm-crypt';
 import CryptoJS from 'crypto-js';
+import { isNullOrUndefined } from './validate';
 
 const AESSecretKey = 'jh34Gh29Nf18Wiyu';
 export function AES_Dencrypt(word: string) {
@@ -85,4 +86,20 @@ export function maskShowStr(idNumber: string, frontN: number, backN: number): st
   const maskedPart = '*'.repeat(idNumber.length - frontN - backN);
 
   return `${frontPart}${maskedPart}${backPart}`;
+}
+
+type TSingleValueToArrayRes<T> = T extends (infer _U)[] ? T : T extends null | undefined ? [] : T[];
+export function singleValueToArray<T>(value: T): TSingleValueToArrayRes<T> {
+  if (Array.isArray(value)) {
+    return value as TSingleValueToArrayRes<T>;
+  }
+  return (isNullOrUndefined(value) ? [] : [value]) as TSingleValueToArrayRes<T>;
+}
+
+type TArrayToSingleValueRes<T> = T extends (infer U)[] ? U : T;
+export function arrayToSingleValue<T>(value: T): TArrayToSingleValueRes<T> {
+  if (Array.isArray(value)) {
+    return value?.[0];
+  }
+  return value as TArrayToSingleValueRes<T>;
 }
