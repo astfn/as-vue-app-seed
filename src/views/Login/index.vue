@@ -25,18 +25,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useLayoutInfoStore } from '@/store/layout-info';
 import LoginWithPhoneForm, { TLoginWithPhoneFormInfo } from '@/components/LoginWithPhoneForm/index.vue';
 import { useWrapperRef } from '@/hooks';
 import { computed, ref } from 'vue';
 import { showFailToast } from 'vant';
 import { useUserStore } from '@/store/user';
 import { authController } from '@/local-cache-data';
-import { storeToRefs } from 'pinia';
 import { RoutesEnumOptions } from '@/router/routesConfig';
 
-const LayoutInfoStore = useLayoutInfoStore();
-const { normalPageHeightCssValue } = storeToRefs(LayoutInfoStore);
 const [consentAgreement, _setConsentAgreement] = useWrapperRef(false);
 
 const LoginWithPhoneFormRef = ref<InstanceType<typeof LoginWithPhoneForm>>();
@@ -88,8 +84,7 @@ const jumpToPrivacy = () => {};
 <style scoped lang="less">
 .consumer-login-page {
   padding: 0 25px;
-  box-sizing: border-box;
-  height: v-bind(normalPageHeightCssValue);
+  height: 100%;
   overflow: hidden;
 
   background-image: url('@/assets/vue.svg');

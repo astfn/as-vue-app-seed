@@ -31,8 +31,7 @@ import { useFetch, useWrapperRef } from '@/hooks';
 import InfoListItemCard from './InfoListItemCard.vue';
 import { isNullOrUndefined } from '@/utils/index';
 import { useRouter } from 'vue-router';
-import { useLayoutInfoStore } from '@/store';
-import { storeToRefs } from 'pinia';
+
 const Router = useRouter();
 
 /**
@@ -168,14 +167,11 @@ const jumpDetailPage = (info) => {
     query: { id: info?.id },
   });
 };
-
-const LayoutInfoStore = useLayoutInfoStore();
-const { normalPageHeightCssValue } = storeToRefs(LayoutInfoStore);
 </script>
 
 <style scoped lang="less">
 .filter-info-list-wrapper {
-  height: v-bind(normalPageHeightCssValue);
+  height: 100%;
   overflow: hidden auto;
   display: flex;
   flex-direction: column;
@@ -183,6 +179,9 @@ const { normalPageHeightCssValue } = storeToRefs(LayoutInfoStore);
   padding: var(--page-normal-padding);
 
   .van-list {
+    // // ios soafari 还是要设置 padding，不然列表内容展示不全，
+    // // 但是其它浏览器环境不设置 padding 也是能够完美显示的（微信浏览器）
+    // padding-bottom: v-bind(tabBarHeightCssValue);
     overflow: scroll;
   }
 
