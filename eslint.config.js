@@ -22,6 +22,7 @@ const TsCustomRules = {
     },
   ],
   'no-sparse-arrays': 'off',
+  'no-console': ['error', { allow: ['warn', 'error'] }],
 };
 
 export default [

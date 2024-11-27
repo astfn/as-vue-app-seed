@@ -2,7 +2,7 @@
 import CryptoJS from 'crypto-js';
 import { isNullOrUndefined } from './validate';
 
-const AESSecretKey = 'jh34Gh29Nf18Wiyu';
+const AESSecretKey = 'AESSecretKey';
 export function AES_Dencrypt(word: string) {
   if (!word) return '';
   const keys = CryptoJS.enc.Utf8.parse(AESSecretKey);

@@ -29,9 +29,9 @@ export const versionDiff = async () => {
     .then((res) => res.json())
     .then((data) => {
       const { version } = data;
-      const htmlVersion = getCurrentVersionInMeta();
-      console.log('😊', htmlVersion, version);
-      if (version && htmlVersion && String(version) !== String(htmlVersion)) {
+      const inMetaVersion = getCurrentVersionInMeta();
+      console.log(`🔎--check version--🔍 inMetaVersion: ${inMetaVersion} ; inJsonVersion: ${version}`); // eslint-disable-line no-console
+      if (version && inMetaVersion && String(version) !== String(inMetaVersion)) {
         showDialog({
           title: '检测到新版本，请确认',
         }).then(() => {
@@ -43,7 +43,7 @@ export const versionDiff = async () => {
         }, Time);
       }
     })
-    .catch((err) => console.log('versionDiff 逻辑执行失败', err));
+    .catch((err) => console.error('versionDiff 逻辑执行失败', err));
 };
 
 export const versionCheckLoop = () => {
