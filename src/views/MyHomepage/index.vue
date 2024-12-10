@@ -30,9 +30,6 @@ import { watch } from 'vue';
 import { useFetch, useWrapperRef } from '@/hooks';
 import InfoListItemCard from './InfoListItemCard.vue';
 import { isNullOrUndefined } from '@/utils/index';
-import { useRouter } from 'vue-router';
-
-const Router = useRouter();
 
 /**
  * Tab 数据源
@@ -161,11 +158,11 @@ watch(fetchTabOptionsData, (data) => {
 /**
  * 详情页跳转
  */
-const jumpDetailPage = (info) => {
-  Router.push({
-    path: '/infoDetail',
-    query: { id: info?.id },
-  });
+const jumpDetailPage = (_info) => {
+  // Router.push({
+  //   path: '/infoDetail',
+  //   query: { id: info?.id },
+  // });
 };
 </script>
 

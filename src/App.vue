@@ -21,8 +21,6 @@
 import MyImg from '@/assets/my.png';
 import MyActiveImg from '@/assets/my-active.png';
 import { RoutesEnumOptions } from './router/routesConfig';
-
-RoutesEnumOptions;
 </script>
 
 <style scoped lang="less"></style>

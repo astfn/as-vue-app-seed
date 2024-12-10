@@ -16,7 +16,12 @@
 *  样式复写
 */
 .common-layout-tabbar {
-  height: 60px;
+  overflow: hidden;
+  // fixed模式与其它模式的 tabbar 高度统一
+  &,
+  .van-tabbar.van-tabbar--fixed {
+    height: 60px;
+  }
   .van-tabbar-item {
     .van-tabbar-item__text {
       font-size: 13px;
