@@ -84,7 +84,7 @@ const getVerificationCode = async () => {
 };
 
 type TTriggerSubmitCallBack = (payload: TLoginWithPhoneFormInfo) => any;
-const [triggerSubmitCallBack, setTriggerSubmitCallBack] = useWrapperRef<TTriggerSubmitCallBack>(() => () => {});
+const [triggerSubmitCallBack, setTriggerSubmitCallBack] = useWrapperRef<TTriggerSubmitCallBack>(() => {});
 const onFinish = () => {
   triggerSubmitCallBack.value?.(getFormatValues());
 };
