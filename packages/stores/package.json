@@ -1,0 +1,13 @@
+{
+  "name": "@as-vue-app-seed/stores",
+  "version": "1.0.0",
+  "description": "vue project template stores common logic",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "astfn",
+  "license": "ISC",
+  "dependencies": {
+    "@as-vue-app-seed/utils": "workspace:*"
+  }
+}

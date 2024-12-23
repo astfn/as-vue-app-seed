@@ -1,0 +1,18 @@
+{
+  "name": "@as-vue-app-seed/utils",
+  "version": "1.0.0",
+  "description": "vue project template utils",
+  "main": "index.js",
+  "files": [
+    "hooks",
+    "local-cache-data",
+    "tools"
+  ],
+  "scripts": {},
+  "keywords": [],
+  "author": "astfn",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^3.5.10"
+  }
+}

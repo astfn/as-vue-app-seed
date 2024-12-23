@@ -1,0 +1,4 @@
+{
+  "extends": "@as-vue-app-seed/ts-config/tsconfig.node.json",
+  "include": ["vite.config.ts"]
+}
