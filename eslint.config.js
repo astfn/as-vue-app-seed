@@ -14,33 +14,30 @@ const TsCustomRules = {
       varsIgnorePattern: '^_',
     },
   ],
-  'no-unused-vars': [
-    'error',
-    {
-      argsIgnorePattern: '^_',
-      varsIgnorePattern: '^_',
-    },
-  ],
   'no-sparse-arrays': 'off',
   'no-console': ['error', { allow: ['warn', 'error'] }],
 };
 
 export default [
+  /**
+   * 全局配置
+   */
   {
     ignores: ['.history/**', '.husky/**', '.vscode/**', 'coverage/**', 'lib/**', 'node_modules/**'],
   },
-  eslint.configs.recommended,
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  /**
+   * ts 相关配置
+   * */
   {
     files: ['**/*.ts'],
-    plugins: {
-      '@typescript-eslint': tseslint.plugin,
-    },
-    languageOptions: {
-      parser: tseslint.parser,
-    },
     rules: TsCustomRules,
   },
+  /**
+   * vue 相关配置
+   * */
   ...pluginVue.configs['flat/recommended'],
   {
     files: ['**/*.vue'],
