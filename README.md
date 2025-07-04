@@ -6,9 +6,11 @@
 
 1. 版本更新提示
 
-2. 内置自定义代码片段进行构建产物混淆的 vite 插件
+2. 代码混淆
 
-   * [@mohamad-supangat/vite-plugin-gnirts](https://www.npmjs.com/package/@mohamad-supangat/vite-plugin-gnirts) 该包只支持对整个文件进行处理
+   * 内置自定义代码片段进行构建产物混淆的 vite 插件
+     * [@mohamad-supangat/vite-plugin-gnirts](https://www.npmjs.com/package/@mohamad-supangat/vite-plugin-gnirts) 该包只支持对整个文件进行处理
+   * 全局代码混淆：vitePluginBundleObfuscator
 
 3. 登录成功后自动进入用户上一次进入的页面（token过期）
 
