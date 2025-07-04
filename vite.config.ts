@@ -6,6 +6,7 @@ import postcssPx2viewport from 'postcss-px-to-viewport';
 import { vitePluginVersionMark } from 'vite-plugin-version-mark';
 import { resolve } from 'path';
 import dayjs from 'dayjs';
+import { vitePluginGnirts } from './vitePluginGnirts';
 // https://vitejs.dev/config/
 
 export default defineConfig({
@@ -19,6 +20,7 @@ export default defineConfig({
         content: `{"version":"${version}"}`,
       }),
     }),
+    vitePluginGnirts(),
   ],
   css: {
     postcss: {

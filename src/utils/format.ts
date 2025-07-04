@@ -2,7 +2,7 @@
 import CryptoJS from 'crypto-js';
 import { isNullOrUndefined } from './validate';
 
-const AESSecretKey = 'AESSecretKey';
+const AESSecretKey = /* @mangle */ 'AESSecretKey'; /* /@mangle */
 export function AES_Dencrypt(word: string) {
   if (!word) return '';
   const keys = CryptoJS.enc.Utf8.parse(AESSecretKey);

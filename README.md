@@ -6,11 +6,15 @@
 
 1. 版本更新提示
 
-2. 登录成功后自动进入用户上一次进入的页面（token过期）
+2. 内置自定义代码片段进行构建产物混淆的 vite 插件
 
-3. 微信授权基础逻辑
+   * [@mohamad-supangat/vite-plugin-gnirts](https://www.npmjs.com/package/@mohamad-supangat/vite-plugin-gnirts) 该包只支持对整个文件进行处理
 
-4. 全局基础布局
+3. 登录成功后自动进入用户上一次进入的页面（token过期）
+
+4. 微信授权基础逻辑
+
+5. 全局基础布局
 
    - 布局信息在整个 app 中都可访问（维护到了 store 中），让页面布局更加灵活
 
@@ -20,11 +24,11 @@
 
    - 对 tabbar 进行样式复写，更加符合 ui 设计
 
-5. 请求工具函数的封装
+6. 请求工具函数的封装
 
    - 支持缓存模式和 cancel 模式
 
-6. 基础 hooks 的封装
+7. 基础 hooks 的封装
 
 ### 内部处理常见的 c 端问题：
 
