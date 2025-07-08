@@ -21,17 +21,15 @@ const obfuscationConfig = {
 
   // 禁用高开销选项（保持性能）
   controlFlowFlattening: false,
-  deadCodeInjection: false,
-  debugProtection: false,
+  deadCodeInjection: false, // 注入无效代码
+  debugProtection: false, // 禁用开发者工具调试
 
   // 强制转换的字符串
   // forceTransformStrings: ['sm\d+'], // prettier-ignore
   // transformObjectKeys: true, // 强制转换对象键名（即使字符串也混淆）
   // renameProperties: true, // 强制重命名对象属性
 
-  // deadCodeInjection: true, // 注入无效代码
   // deadCodeInjectionThreshold: 0.4, // 无效代码比例
-  // debugProtection: true, // 禁用开发者工具调试
 };
 
 // const isObfuscate = import.meta.env.MODE!= 'development';
