@@ -6,7 +6,12 @@ import pluginVue from 'eslint-plugin-vue';
 import vueParser from 'vue-eslint-parser';
 
 const TsCustomRules = {
+  'no-sparse-arrays': 'off',
+  '@typescript-eslint/no-explicit-any': 'off',
+  '@typescript-eslint/no-unused-expressions': 'off',
+  '@typescript-eslint/no-unsafe-function-type': 'off',
   '@typescript-eslint/consistent-type-imports': 'off',
+  'no-console': ['error', { allow: ['warn', 'error'] }],
   '@typescript-eslint/no-unused-vars': [
     'error',
     {
@@ -14,8 +19,6 @@ const TsCustomRules = {
       varsIgnorePattern: '^_',
     },
   ],
-  'no-sparse-arrays': 'off',
-  'no-console': ['error', { allow: ['warn', 'error'] }],
 };
 
 export default [
@@ -23,7 +26,7 @@ export default [
    * 全局配置
    */
   {
-    ignores: ['.history/**', '.husky/**', '.vscode/**', 'coverage/**', 'lib/**', 'node_modules/**'],
+    ignores: ['.history/**', '.husky/**', '.vscode/**', 'coverage/**', 'lib/**', 'public/**', 'node_modules/**'],
   },
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   eslint.configs.recommended,
@@ -53,6 +56,7 @@ export default [
     },
     rules: {
       ...TsCustomRules,
+      'vue/no-v-html': 'off',
       'vue/attributes-order': 'off',
       'vue/require-emit-validator': 'warn',
       'vue/multi-word-component-names': 'off',
