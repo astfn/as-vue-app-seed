@@ -1,10 +1,11 @@
 import { customRequest } from '@/service';
+import { RequestStrategyEnum } from '@/service/request';
 
 export function testApi(params: any) {
   return customRequest.get({
     url: 'http://localhost:3000/api/items',
     params,
-    sameReqIsShareResult: true,
+    requestStrategy: RequestStrategyEnum.SameReqShareResult,
     interceptors: {
       requestInterceptorFulfilled(config) {
         console.log('testlala 接口层的 requestInterceptorFulfilled😁');

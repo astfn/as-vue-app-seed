@@ -11,9 +11,24 @@ export type BetterRequestInstanceInterceptors = {
   responseInterceptorRejected?: (_error: any) => any;
 };
 
+export enum RequestStrategyEnum {
+  /**
+   *  最普通的请求处理
+   */
+  Ordinary = 1,
+  /**
+   * 多次进行同种请求,不再发起新请求，而是选择共享数据源
+   */
+  SameReqShareResult,
+  /**
+   * 将多余同种请求 cancel  掉
+   */
+  SameReqCancel,
+}
+
 export type BetterRequestConfig = AxiosRequestConfig & {
   interceptors?: BetterRequestInstanceInterceptors;
-  sameReqIsShareResult?: boolean;
+  requestStrategy?: RequestStrategyEnum;
 };
 
 export type BetterRequestPresets = {
@@ -56,15 +71,18 @@ export class BetterRequest {
     this.instance.interceptors.response.use(
       (responseInfo) => {
         const { data, status } = responseInfo;
-        const responseStatus = (responseInfo as any)?.response?.status;
-        if (data?.code == 200 || status == 200 || responseStatus == 200) {
+        // const config = responseInfo.config as BetterRequestConfig;
+        if (data?.code == 200) {
           return data;
+        } else if (status == 200) {
+          showFailToast(data?.message || '请求失败');
+          return Promise.reject(responseInfo);
         } else if ((responseInfo as any).code === 'ERR_CANCELED') {
           return Promise.reject('cancel error');
         }
       },
       (err: AxiosError) => {
-        showFailToast((err?.response?.data as any)?.message);
+        if (err.code != 'ERR_CANCELED') showFailToast((err?.response?.data as any)?.message || '服务器忙，请稍后再试');
         if (err.status == 401 || err?.response?.status == 401) {
           throwLoginExpireMessage();
         }
@@ -179,10 +197,31 @@ export class BetterRequest {
     }
   }
 
-  request<TResult>(config: BetterRequestConfig): Promise<TResult> {
-    const { sameReqIsShareResult = false } = config;
+  ordinaryRequest<TResult>(config: BetterRequestConfig): Promise<TResult> {
+    try {
+      config?.interceptors?.requestInterceptorFulfilled?.(config);
+      const requestSource = this.genRequestLogicPromise<TResult>({
+        config,
+        processFinally: () => {},
+      });
+      // console.log('ordinaryRequest');
+      return requestSource;
+    } catch (error) {
+      config?.interceptors?.requestInterceptorRejected?.(error);
+      return Promise.reject(error);
+    }
+  }
 
-    return sameReqIsShareResult ? this.sameReqShareResultRequest(config) : this.cancelModeRequest(config);
+  request<TResult>(config: BetterRequestConfig): Promise<TResult> {
+    const { requestStrategy = RequestStrategyEnum.SameReqCancel } = config;
+
+    if (requestStrategy == RequestStrategyEnum.SameReqShareResult) {
+      return this.sameReqShareResultRequest(config);
+    }
+    if (requestStrategy == RequestStrategyEnum.SameReqCancel) {
+      return this.cancelModeRequest(config);
+    }
+    return this.ordinaryRequest(config);
   }
 
   get<T = any>(config: BetterRequestConfig): Promise<T> {
