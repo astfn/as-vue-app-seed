@@ -2,20 +2,17 @@
   <div class="filter-info-list-wrapper">
     <van-tabs v-model:active="activeTab" @change="changeTabLogic">
       <van-tab
-        v-for="tabInfo in fetchTabOptionsData?.list"
+        v-for="tabInfo in fetchTabOptionsData?.data"
         :key="tabInfo?.id"
         :title="tabInfo?.typeName"
         :name="tabInfo?.id"
       />
     </van-tabs>
-    <!-- <p>{{ searchInfo }}</p>
-    <p>{{ showListTotalPages }}</p>
-    <p>{{ showList }}</p> -->
     <van-list
       v-if="!isNullOrUndefined(activeTab)"
-      v-model:loading="showListLoading"
-      :finished="fetchListFinished"
-      @load="fetchListOnLoad"
+      v-model:loading="loading"
+      :finished="finished"
+      @load="loadMore"
       finished-text="没有更多了"
     >
       <div class="show-list-wrapper">
@@ -27,131 +24,126 @@
 
 <script lang="ts" setup>
 import { watch } from 'vue';
-import { useFetch, useWrapperRef } from '@/hooks';
+import { useWrapperRef, useRequest } from '@/hooks';
 import InfoListItemCard from './InfoListItemCard.vue';
 import { isNullOrUndefined } from '@/utils/index';
+import { useLoadMore } from 'vue-request';
+import { getListMockFunc } from '@/apis/test';
 
 /**
  * Tab 数据源
  */
 const [activeTab, setActiveTab] = useWrapperRef<string | undefined>(undefined);
-const { resData: fetchTabOptionsData, loading: _fetchTabOptionsLoading } = useFetch<any, any>(
-  () => {
-    return {
-      data: {
-        list: [
-          {
-            id: '1851894279521132546',
-            typeName: '保健',
-          },
-          {
-            id: '1851864170685612034',
-            typeName: '金融',
-          },
-          {
-            id: '1851919382085046274',
-            typeName: 'AshunTest',
-          },
-          {
-            id: '1851917823422959618',
-            typeName: '类别22',
-          },
-          {
-            id: '18519193820850462741',
-            typeName: 'AshunTest1',
-          },
-          {
-            id: '18519178234229596181',
-            typeName: '类别221',
-          },
-          {
-            id: '18519193820850462742',
-            typeName: 'AshunTest2',
-          },
-          {
-            id: '18519178234229596182',
-            typeName: '类别222',
-          },
-          {
-            id: '18519193820850462743',
-            typeName: 'AshunTest3',
-          },
-          {
-            id: '18519178234229596183',
-            typeName: '类别223',
-          },
-          {
-            id: '18519193820850462744',
-            typeName: 'AshunTest4',
-          },
-          {
-            id: '18519178234229596184',
-            typeName: '类别224',
-          },
-          {
-            id: '18519193820850462745',
-            typeName: 'AshunTest5',
-          },
-          {
-            id: '18519178234229596185',
-            typeName: '类别22',
-          },
-        ],
+const { res: fetchTabOptionsData, loading: _fetchTabOptionsLoading } = useRequest(async () => {
+  return {
+    data: [
+      {
+        id: '1851894279521132546',
+        typeName: '保健',
       },
+      {
+        id: '1851864170685612034',
+        typeName: '金融',
+      },
+      {
+        id: '1851919382085046274',
+        typeName: 'AshunTest',
+      },
+      {
+        id: '1851917823422959618',
+        typeName: '类别22',
+      },
+      {
+        id: '18519193820850462741',
+        typeName: 'AshunTest1',
+      },
+      {
+        id: '18519178234229596181',
+        typeName: '类别221',
+      },
+      {
+        id: '18519193820850462742',
+        typeName: 'AshunTest2',
+      },
+      {
+        id: '18519178234229596182',
+        typeName: '类别222',
+      },
+      {
+        id: '18519193820850462743',
+        typeName: 'AshunTest3',
+      },
+      {
+        id: '18519178234229596183',
+        typeName: '类别223',
+      },
+      {
+        id: '18519193820850462744',
+        typeName: 'AshunTest4',
+      },
+      {
+        id: '18519178234229596184',
+        typeName: '类别224',
+      },
+      {
+        id: '18519193820850462745',
+        typeName: 'AshunTest5',
+      },
+      {
+        id: '18519178234229596185',
+        typeName: '类别22',
+      },
+    ],
+  };
+});
+/**
+ * 请求处理
+ */
+
+const {
+  data: _data,
+  loadingMore: _loadingMore,
+  dataList,
+  loading,
+  noMore,
+  loadMore,
+  refresh,
+} = useLoadMore(
+  async (d) => {
+    const pageNum = d?.page ? d.page + 1 : 1;
+    // console.log('type: activeTabKey', _page, activeTab.value);
+    const data = await getListMockFunc({ pageNum, pageSize: 10 });
+    return {
+      list: data.data,
+      page: pageNum,
+      total: data.total,
     };
   },
-  { immediate: true }
-);
-
-/**
- * 搜索逻辑
- */
-type TQueryInfoListParams = any;
-const getInitalSearchInfo = (preset?: Partial<TQueryInfoListParams>): TQueryInfoListParams => {
-  return {
-    state: preset?.state,
-    page: preset?.page ?? 1,
-    limit: 10,
-  };
-};
-const [searchInfo, setSearchInfo] = useWrapperRef<TQueryInfoListParams>(getInitalSearchInfo({ page: 0 }));
-const [showList, setShowList] = useWrapperRef<any[]>([]);
-const [showListLoading, setShowListLoading] = useWrapperRef(false);
-
-const [fetchListFinished, setFetchListFinished] = useWrapperRef(false);
-const [showListTotalPages, setShowListTotalPages] = useWrapperRef(100);
-
-const fetchList = async () => {
-  // todo: 接口掉用 传入 searchInfo
-  const { data = [], total = 0 } = ((await Promise.resolve({
-    data: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-    total: 2,
-  })) ?? {}) as any;
-  setShowList([...showList.value, ...data]);
-  setShowListLoading(false);
-  setShowListTotalPages(Math.ceil(Number(total) / searchInfo.value.limit));
-  setFetchListFinished(showList.value?.length >= total);
-};
-
-const fetchListOnLoad = async () => {
-  searchInfo.value.page = searchInfo.value.page + 1;
-  if (searchInfo.value.page >= showListTotalPages.value) {
-    setShowListLoading(false);
-    setFetchListFinished(true);
-    return;
+  {
+    manual: true,
+    isNoMore: (d) => {
+      return (d?.list?.length ?? 0) >= (d?.total ?? 0);
+    },
   }
-  await fetchList();
-};
+);
+const [finished, setFinished] = useWrapperRef<boolean>(false);
+watch(noMore, (finish) => {
+  setFinished(finish);
+});
+const [showList, setShowList] = useWrapperRef<any[]>([]);
+watch(dataList, () => {
+  setShowList(dataList.value);
+});
 
 const changeTabLogic = async (activeTabKey: string) => {
   setActiveTab(activeTabKey);
   setShowList([]);
-  setSearchInfo({ ...getInitalSearchInfo(), type: activeTabKey });
-  await fetchList();
+  setFinished(false);
+  refresh();
 };
 
 watch(fetchTabOptionsData, (data) => {
-  const options = data?.list ?? [];
+  const options = data?.data ?? [];
   changeTabLogic(options?.[0]?.id);
 });
 
@@ -169,7 +161,7 @@ const jumpDetailPage = (_info) => {
 <style scoped lang="less">
 .filter-info-list-wrapper {
   height: 100%;
-  overflow: hidden auto;
+  overflow: hidden visible;
   display: flex;
   flex-direction: column;
   gap: var(--page-normal-padding);

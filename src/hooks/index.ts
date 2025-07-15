@@ -1,2 +1,2 @@
 export * from './useWrapperRef';
-export * from './useFetch';
+export * from './useRequest';

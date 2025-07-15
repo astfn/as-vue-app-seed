@@ -46,7 +46,7 @@ export type TLoginWithPhoneFormInfo = {
 import { useCountDown } from '@vant/use';
 import { ref, computed } from 'vue';
 import { AES_Encrypt, PhoneRule } from '@/utils';
-import { useWrapperRef, useFetch } from '@/hooks';
+import { useWrapperRef, useRequest } from '@/hooks';
 import { showFailToast } from 'vant';
 
 const Props = defineProps<{
@@ -73,8 +73,8 @@ const getVerificationCodeBtnDisabled = computed(() => {
   return showCountDown.value || !PhoneRule.pattern.test(Props.formInfo.mobileNo);
 });
 
-const sendCustomerSms = async () => {};
-const { fetchResource: callSendCustomerSms, loading: callSendCustomerSmsLoading } = useFetch<any, any>(sendCustomerSms);
+const sendCustomerSms = async (_) => {};
+const { runAsync: callSendCustomerSms, loading: callSendCustomerSmsLoading } = useRequest(sendCustomerSms);
 const getVerificationCode = async () => {
   // console.log('getVerificationCode', getVerificationCodeBtnDisabled.value);
   if (getVerificationCodeBtnDisabled.value) return;

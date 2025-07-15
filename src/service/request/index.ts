@@ -213,7 +213,7 @@ export class BetterRequest {
   }
 
   request<TResult>(config: BetterRequestConfig): Promise<TResult> {
-    const { requestStrategy = RequestStrategyEnum.SameReqCancel } = config;
+    const { requestStrategy = RequestStrategyEnum.Ordinary } = config;
 
     if (requestStrategy == RequestStrategyEnum.SameReqShareResult) {
       return this.sameReqShareResultRequest(config);

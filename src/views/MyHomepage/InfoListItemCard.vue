@@ -2,7 +2,7 @@
   <div class="info-list-item-card">
     <main>
       <section class="left">
-        <span class="title">Ashuntefannao</span>
+        <span class="title">{{ info.name }}</span>
         <div class="sub-info">
           <!-- <view class="sub-info-item">恒泰保险</view> -->
           <span class="sub-info-item">2020-04-11 16：00：00</span>
