@@ -1,12 +1,11 @@
-// @ts-ignore
 import BrowserLogger from 'alife-logger';
 import { getCurrentVersionInMeta } from './version-diff';
 
-let __bl: any;
+let __bl;
 if (import.meta.env.MODE === 'prod') {
   __bl = BrowserLogger.singleton({
     // 根据应用配置
-    pid: 'ilu2q@1bbac7135a8177b',
+    pid: '',
     appType: 'web',
     imgUrl: 'https://arms-retcode.aliyuncs.com/r.png?',
     sendResource: true,

@@ -1,6 +1,7 @@
 import { authController } from '@/local-cache-data';
 import { useUserStore } from '@/store';
-import xssPackage, { IFilterXSSOptions } from 'xss';
+import { cloneDeep } from 'lodash';
+import { FilterXSS, whiteList } from 'xss';
 
 export * from './validate';
 export * from './format';
@@ -14,12 +15,13 @@ export function clearLocalCache() {
 /**
  * xss
  */
-const whiteList = JSON.parse(JSON.stringify((xssPackage as IFilterXSSOptions).whiteList));
-Object.keys(whiteList).forEach((key) => {
-  whiteList[key].push('style');
+const enhanceWhiteList = cloneDeep(whiteList);
+Object.keys(enhanceWhiteList).forEach((key) => {
+  if (enhanceWhiteList[key]) {
+    enhanceWhiteList[key].push('style');
+  }
 });
-// @ts-ignore
-export const xssUtil = new xssPackage.FilterXSS({
-  whiteList,
+export const xssUtil = new FilterXSS({
+  whiteList: enhanceWhiteList,
   css: false,
 });

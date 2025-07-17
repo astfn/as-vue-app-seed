@@ -1,8 +1,7 @@
 import { showDialog } from 'vant';
 import { authController } from '@/local-cache-data';
-import { clearLocalCache, isNullOrUndefined } from '@/utils';
+import { clearLocalCache, isNullOrUndefined, qsParseAssertString } from '@/utils';
 import { RouteLocationNormalizedGeneric, Router } from 'vue-router';
-import qs from 'query-string';
 import { RoutesEnumOptions } from './routesConfig';
 import { useUserStore } from '@/store';
 
@@ -36,7 +35,7 @@ export function genRouterNavigationGuards(router: Router) {
   const handleJumpNormalPage = async (params: { to: RouteLocationNormalizedGeneric }) => {
     const { to } = params;
     const { token: tokenInQuery } = to.query;
-    const { code } = qs.parse(window.location.search);
+    const { code } = qsParseAssertString(['code']);
     const authToken = authController.getAuth();
 
     if (tokenInQuery) {
@@ -68,8 +67,8 @@ export function genRouterNavigationGuards(router: Router) {
           path: RoutesEnumOptions.Login.value.path,
         };
       }
-      const { code } = qs.parse(window.location.search);
-      window.location.href = (url + '?code=' + code) as string;
+      const { code } = qsParseAssertString(['code']);
+      window.location.href = url + '?code=' + code;
       return;
     }
 
