@@ -4,7 +4,7 @@ import { BetterRequestConfig } from '@/service/request';
 
 export type TGetUserBaseInfoResData = { mobileNo: string };
 export function getUserBaseInfo(
-  _data: undefined,
+  _data?: undefined,
   _requestConfig?: BetterRequestConfig
 ): TCallApiRes<TGetUserBaseInfoResData> {
   // return customRequest.get({
