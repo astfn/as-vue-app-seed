@@ -14,6 +14,7 @@ export function useCollectLayOutInfoNormalLogic() {
     () => {
       LayoutInfoStore.setShowNavByRoute(Route);
       LayoutInfoStore.setShowTabBarByRoute(Route);
+      LayoutInfoStore.setShowNavArrowByRoute(Route);
     },
     { immediate: true }
   );

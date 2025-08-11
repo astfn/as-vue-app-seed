@@ -10,7 +10,7 @@
   >
     <template #left>
       <div class="flexrcc">
-        <van-icon name="arrow-left" size="18" @click="Router.back()" />
+        <van-icon v-if="LayoutInfoStore.isShowNavArrow" name="arrow-left" size="18" @click="Router.back()" />
       </div>
     </template>
   </van-nav-bar>
@@ -23,17 +23,11 @@
     </router-view>
   </div>
 
-  <van-tabbar
-    class="common-layout-tabbar"
-    v-if="LayoutInfoStore.isShowTabBar"
-    ref="TabBarRef"
-    route
-    fixed
-    placeholder
-    safe-area-inset-bottom
-  >
-    <slot name="tabBarContent"></slot>
-  </van-tabbar>
+  <CommonTabBar v-if="LayoutInfoStore.isShowTabBar" ref="TabBarRef">
+    <template #default>
+      <slot name="tabBarContent"></slot>
+    </template>
+  </CommonTabBar>
 </template>
 
 <script lang="ts" setup>

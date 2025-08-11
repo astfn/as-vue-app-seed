@@ -21,9 +21,11 @@
     <p>end</p>
   </div>
 
-  <CustomTabbar ref="TabBarRef">
-    <van-button type="primary" block>立即购买</van-button>
-  </CustomTabbar>
+  <CommonTabBar ref="TabBarRef">
+    <div class="footer flexrcc">
+      <van-button type="primary" block>立即购买</van-button>
+    </div>
+  </CommonTabBar>
 </template>
 
 <script lang="ts" setup>
@@ -37,7 +39,7 @@ const { navHeight } = storeToRefs(LayoutInfoStore);
 
 const TabBarRef = ref();
 const { height: tabBarHeight } = useElementSize(TabBarRef);
-const PageHeightCssValue = computed(() => `calc(100vh - ${navHeight.value + tabBarHeight.value}px)`);
+const PageHeightCssValue = computed(() => `calc(var(--fullHeight) - ${navHeight.value + tabBarHeight.value}px)`);
 </script>
 
 <style scoped lang="less">
@@ -46,5 +48,16 @@ const PageHeightCssValue = computed(() => `calc(100vh - ${navHeight.value + tabB
   height: v-bind(PageHeightCssValue);
   overflow: hidden auto;
   background-color: pink;
+}
+.footer {
+  width: 100%;
+  padding: 0px 10px;
+}
+
+.common-layout-tabbar {
+  &,
+  :deep(.van-tabbar.van-tabbar--fixed) {
+    height: 80px;
+  }
 }
 </style>

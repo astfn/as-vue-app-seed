@@ -8,11 +8,15 @@ export function useNavAndTabBarInfo() {
    */
   const [isShowNav, setIsShowNav] = useWrapperRef<boolean>(true);
   const [navHeight, setNavHeight] = useWrapperRef<number>(0);
+  const [isShowNavArrow, setIsShowNavArrow] = useWrapperRef<boolean>(true);
 
   const navHeightCssValue = computed(() => navHeight.value + 'px');
 
   const setShowNavByRoute = (route: RouteLocationNormalizedLoaded) => {
     setIsShowNav((route?.meta?.global_nav_show ?? true) as boolean);
+  };
+  const setShowNavArrowByRoute = (route: RouteLocationNormalizedLoaded) => {
+    setIsShowNavArrow((route?.meta?.global_nav_show_arrow ?? true) as boolean);
   };
   /**
    * TabBar
@@ -30,15 +34,19 @@ export function useNavAndTabBarInfo() {
    * common
    */
   const navAndTabBarTotalHeight = computed(() => navHeight.value + tabBarHeight.value);
-  const normalPageHeightCssValue = computed(() => `calc(100vh - ${navHeight.value + tabBarHeight.value}px)`);
+  const normalPageHeightCssValue = computed(
+    () => `calc(var(--fullHeight) - ${navHeight.value + tabBarHeight.value}px)`
+  );
 
   return {
     // Nav
     isShowNav,
     navHeight,
-    setNavHeight,
     navHeightCssValue,
+    isShowNavArrow,
+    setNavHeight,
     setShowNavByRoute,
+    setShowNavArrowByRoute,
     // TabBar
     isShowTabBar,
     tabBarHeight,

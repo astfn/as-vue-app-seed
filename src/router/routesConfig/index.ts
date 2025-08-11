@@ -5,6 +5,7 @@ type MyRouteRecordRawMetaInfo = RouteMeta & {
   title?: string;
   notNeedLoginPage?: boolean;
   global_nav_show?: boolean;
+  global_nav_show_arrow?: boolean;
   global_tabbar_show?: boolean;
 };
 export type TEnhanceRecordRaw = Omit<RouteRecordRaw, 'meta'> & { meta?: MyRouteRecordRawMetaInfo };
@@ -25,13 +26,6 @@ export const RoutesEnumOptions = asEnum([
       path: '/login',
       component: () => import('@/views/Login/index.vue'),
       meta: { title: '登录页', global_nav_show: false, global_tabbar_show: false },
-      children: [
-        {
-          path: '/login',
-          component: () => import('@/views/Login/index.vue'),
-          meta: { title: '登录页', global_nav_show: false, global_tabbar_show: false },
-        },
-      ],
     }),
   ],
   [
@@ -39,7 +33,7 @@ export const RoutesEnumOptions = asEnum([
     genRouteConfigItem({
       path: '/homepage',
       component: () => import('@/views/Homepage/index.vue'),
-      meta: { title: '首页' },
+      meta: { title: '首页', global_nav_show_arrow: false },
     }),
   ],
   [
