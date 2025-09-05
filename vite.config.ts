@@ -32,7 +32,7 @@ const obfuscationConfig = {
   // deadCodeInjectionThreshold: 0.4, // 无效代码比例
 };
 
-// const isObfuscate = import.meta.env.MODE!= 'development';
+// const isObfuscate = import.meta.env.MODE != 'development';
 const isObfuscate = true;
 
 export default defineConfig({

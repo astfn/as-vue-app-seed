@@ -4,7 +4,7 @@ import qs from 'query-string';
 import { checkStrIsEmpty, isNullOrUndefined } from './validate';
 import { EmptyPlaceholder } from '@/common/constants';
 
-const AESSecretKey = /* @mangle */ 'AESSecretKey'; /* /@mangle */
+const AESSecretKey = /* @mangle */ 'AESSecretKey'; /* @/mangle */
 
 export function AES_Dencrypt(word: string) {
   if (!word) return '';

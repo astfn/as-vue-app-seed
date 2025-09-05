@@ -45,16 +45,7 @@ export function vitePluginGnirts(p?: TVitePluginGnirtsOptions): PluginOption {
       if (matchFile({ filePath })) {
         try {
           const source = fs.readFileSync(filePath, 'utf-8');
-          // 匹配 /* @mangle */ 到 /* @/mangle */ 之间的所有内容（跨行匹配）
-          const regex = /\/\* @mangle \*\/[\s\S]*?\/\* \/@mangle \*\//g;
-          const result = source?.replace?.(regex, (matched) => {
-            // 提取中间内容（去掉注释部分）
-            const content = matched.replace(/\/\* @mangle \*\/\s*/, '').replace(/\s*\/\* \/@mangle \*\//, '');
-            const transfered = gnirts.getCode(content);
-            // console.log('🚀 transfered', matched, transfered);
-            return transfered;
-          });
-          return result;
+          return gnirts.mangle(source);
         } catch (e) {
           console.warn(`vite-plugin-gnirts: [gnirts] Failed to encode block:`, e);
           return null;
