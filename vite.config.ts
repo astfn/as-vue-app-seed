@@ -1,44 +1,26 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import Components from 'unplugin-vue-components/vite';
+import UnpluginComponents from 'unplugin-vue-components/vite';
 import { VantResolver } from '@vant/auto-import-resolver';
 import postcssPx2viewport from 'postcss-px-to-viewport';
 import { vitePluginVersionMark } from 'vite-plugin-version-mark';
 import { resolve } from 'path';
 import dayjs from 'dayjs';
 import { vitePluginGnirts } from './vitePluginGnirts';
-import vitePluginBundleObfuscator from 'vite-plugin-bundle-obfuscator';
 // https://vitejs.dev/config/
 
-// 混淆配置（根据需求选择级别）
-const obfuscationConfig = {
-  // 轻度混淆配置（示例）
-  compact: true,
-  identifierNamesGenerator: 'hexadecimal', // 变量名转为十六进制
-  stringArray: true, // 加密字符串
-  stringArrayThreshold: 0.5, // 加密字符串比例
-  // stringArrayEncoding: ['rc4'], // 字符串加密算法
-
-  // 禁用高开销选项（保持性能）
-  controlFlowFlattening: false,
-  deadCodeInjection: false, // 注入无效代码
-  debugProtection: false, // 禁用开发者工具调试
-
-  // 强制转换的字符串
-  // forceTransformStrings: ['sm\d+'], // prettier-ignore
-  // transformObjectKeys: true, // 强制转换对象键名（即使字符串也混淆）
-  // renameProperties: true, // 强制重命名对象属性
-
-  // deadCodeInjectionThreshold: 0.4, // 无效代码比例
-};
-
-// const isObfuscate = import.meta.env.MODE != 'development';
-const isObfuscate = true;
+const VantResolverRes = VantResolver({
+  // 取消样式自动引入，已在入口文件一次性引入 vant 样式
+  importStyle: false,
+});
 
 export default defineConfig({
   plugins: [
     vue(),
-    Components({ resolvers: [VantResolver()] }),
+    // 自动引入组件
+    UnpluginComponents({
+      resolvers: [VantResolverRes],
+    }),
     vitePluginVersionMark({
       version: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       outputFile: (version) => ({
@@ -47,13 +29,6 @@ export default defineConfig({
       }),
     }),
     vitePluginGnirts(),
-    vitePluginBundleObfuscator({
-      ...{
-        enable: isObfuscate,
-        autoExcludeNodeModules: true,
-      },
-      ...obfuscationConfig,
-    }),
   ],
   css: {
     postcss: {
