@@ -2,7 +2,7 @@
   <div class="home-page-wrapper">
     <h2>
       <van-loading v-if="loading" />
-      首页
+      <ColoringAvatar name="首页" />
       {{ res }}
     </h2>
     <van-search v-model="keywords" @update:model-value="triggerSearch" />
@@ -23,15 +23,15 @@
     <h3>这是首页</h3>
     <h3>这是首页</h3>
     <h3>这是首页</h3>
-
-    <h2>首页</h2>
+    <h2>end</h2>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { getMock } from '@/apis/test';
-import { useWrapperRef, useRequest } from '@/hooks';
+import { useWrapperRef, useRequest } from '@vmono/vhooks';
 import { useRouter } from 'vue-router';
+import { ColoringAvatar } from '@vmono/vant-kit';
 
 const Router = useRouter();
 

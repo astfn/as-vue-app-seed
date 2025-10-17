@@ -26,11 +26,11 @@
 
 <script lang="ts" setup>
 import LoginWithPhoneForm, { TLoginWithPhoneFormInfo } from '@/components/LoginWithPhoneForm/index.vue';
-import { useWrapperRef } from '@/hooks';
 import { computed, ref } from 'vue';
-import { showFailToast } from 'vant';
 import { useUserStore } from '@/store/user';
 import { authController } from '@/local-cache-data';
+import { useWrapperRef } from '@vmono/vhooks';
+import { showFailToast } from 'vant';
 import { RoutesEnumOptions } from '@/router/routesConfig';
 
 const [consentAgreement, _setConsentAgreement] = useWrapperRef(false);

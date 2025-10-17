@@ -1,4 +1,4 @@
-import { useWrapperRef } from '@/hooks';
+import { useWrapperRef } from '@vmono/vhooks';
 
 export function useLoginedJump2Url() {
   const [loginedJump2Url, updateLoginedJump2Url] = useWrapperRef<string | undefined>(undefined);

@@ -45,8 +45,9 @@ export type TLoginWithPhoneFormInfo = {
 <script lang="ts" setup>
 import { useCountDown } from '@vant/use';
 import { ref, computed } from 'vue';
-import { AES_Encrypt, PhoneRule } from '@/utils';
-import { useWrapperRef, useRequest } from '@/hooks';
+import { useWrapperRef, useRequest } from '@vmono/vhooks';
+import { AES_Encrypt } from '@/utils';
+import { PhoneRule } from '@vmono/utils';
 import { showFailToast } from 'vant';
 
 const Props = defineProps<{

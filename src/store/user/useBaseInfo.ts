@@ -1,5 +1,5 @@
 import { getUserBaseInfo, TGetUserBaseInfoResData } from '@/apis/user';
-import { useWrapperRef } from '@/hooks';
+import { useWrapperRef } from '@vmono/vhooks';
 import { AES_Dencrypt } from '@/utils';
 import { computed } from 'vue';
 

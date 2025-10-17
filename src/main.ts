@@ -1,15 +1,16 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import './globalLogicProcessing';
-import registerAppPlugins from './registerAppPlugins';
 import './utils/arms';
-/**
- * style
- */
+// 全局插件注册
+import registerAppPlugins from './registerAppPlugins';
+// 全局默认执行的脚本
+import './globalLogicProcessing';
+// 全局样式文件
 import './global.less';
-// vant cpn style
-import 'vant/es/toast/style';
-import 'vant/es/dialog/style';
+// cpn-kit css
+import '@vmono/vant-kit/style.css';
+// vant css
+import 'vant/lib/index.css';
 
 const app = createApp(App);
 app.use(registerAppPlugins);

@@ -1,4 +1,4 @@
-import { useWrapperRef } from '@/hooks';
+import { useWrapperRef } from '@vmono/vhooks';
 import { computed } from 'vue';
 import { RouteLocationNormalizedLoaded } from 'vue-router';
 
