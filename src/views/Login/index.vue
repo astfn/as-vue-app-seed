@@ -31,7 +31,7 @@ import { useUserStore } from '@/store/user';
 import { authController } from '@/local-cache-data';
 import { useWrapperRef } from '@vmono/vhooks';
 import { showFailToast } from 'vant';
-import { RoutesEnumOptions } from '@/router/routesConfig';
+import { GlobalControlJumpPathOptions } from '@/router/routesConfig';
 
 const [consentAgreement, _setConsentAgreement] = useWrapperRef(false);
 
@@ -69,7 +69,7 @@ const submitLoginForm = () => {
     if (toLoginSuccessUrl) {
       location.href = toLoginSuccessUrl;
     } else {
-      location.pathname = RoutesEnumOptions.Homepage.value.path;
+      location.pathname = GlobalControlJumpPathOptions.homepage.value;
     }
   });
 };
@@ -135,7 +135,7 @@ const jumpToPrivacy = () => {};
       margin-top: 16px;
       gap: 4px;
       .protocol-info {
-        color: #ee5611;
+        color: var(--van-primary-color);
       }
     }
   }

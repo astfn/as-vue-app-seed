@@ -9,7 +9,10 @@
   // custom
   --page-normal-padding: 12px;
   // vant
-  --van-primary-color: #ee5611 !important;
+  --van-toast-default-width: max-content !important;
+  --van-primary-color: #19cdd0 !important;
+  --van-button-primary-background: linear-gradient(98deg, #19cdd0 4%, #00e0b3 96%) !important;
+  --van-button-radius: 10px !important;
 }
 
 /**
@@ -82,10 +85,10 @@ p {
 }
 
 .highlight-txt {
-  color: #ee5611;
+  color: var(--van-primary-color);
 }
 .highlight-txt-gradient {
-  background: linear-gradient(90deg, #ff8f3e, #ea5413 50%);
+  background: var(--van-button-primary-background);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

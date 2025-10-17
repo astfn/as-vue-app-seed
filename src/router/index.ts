@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory, Router, RouteRecordRaw } from 'vue-router';
-import { routes } from './routesConfig';
+import { routesConfig } from './routesConfig';
 import { genRouterNavigationGuards } from './routerNavigationGuards';
 export * from './routerNavigationGuards';
 
 const router: Router = createRouter({
   history: createWebHistory(),
-  routes: routes as RouteRecordRaw[],
+  routes: routesConfig as RouteRecordRaw[],
 });
 
 export const { toLoginPageCommonLogic, throwLoginExpireMessage } = genRouterNavigationGuards(router);

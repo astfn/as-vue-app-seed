@@ -1,16 +1,10 @@
 <template>
   <CommonLayout>
     <template #tabBarContent>
-      <van-tabbar-item :to="RoutesEnumOptions.Homepage.value.path">
-        首页
+      <van-tabbar-item v-for="item in TabBarOptions.genOptions()" :key="item.key" :to="item.value">
+        <span>{{ item.label }}</span>
         <template #icon="{ active }">
-          <img :src="active ? MyActiveImg : MyImg" />
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item :to="RoutesEnumOptions.MyHomepage.value.path">
-        我的
-        <template #icon="{ active }">
-          <img :src="active ? MyActiveImg : MyImg" />
+          <img :src="active ? item.activeIcon : item.icon" />
         </template>
       </van-tabbar-item>
     </template>
@@ -18,9 +12,22 @@
 </template>
 
 <script lang="ts" setup>
-import MyImg from '@/assets/my.png';
-import MyActiveImg from '@/assets/my-active.png';
-import { RoutesEnumOptions } from './router/routesConfig';
+import HomeTabIcon from '@/assets/common/homeTab-icon.png';
+import HomeTabActiveIcon from '@/assets/common/homeTabActive-icon.png';
+import PersonalCenterIcon from '@/assets/common/personalCenter-icon.png';
+import PersonalCenterActiveIcon from '@/assets/common/personalCenterActive-icon.png';
+import { asEnum } from 'as-enum';
+import { GlobalControlJumpPathOptions } from '@/router/routesConfig';
+
+const TabBarOptions = asEnum([
+  [GlobalControlJumpPathOptions.homepage.value, , '首页', { icon: HomeTabIcon, activeIcon: HomeTabActiveIcon }],
+  [
+    GlobalControlJumpPathOptions.personalCenter.value,
+    ,
+    '个人中心',
+    { icon: PersonalCenterIcon, activeIcon: PersonalCenterActiveIcon },
+  ],
+] as const);
 
 /**
  * 计算真实的视口单位高度

@@ -10,48 +10,43 @@ type MyRouteRecordRawMetaInfo = RouteMeta & {
 };
 export type TEnhanceRecordRaw = Omit<RouteRecordRaw, 'meta'> & { meta?: MyRouteRecordRawMetaInfo };
 
-const genRouteConfigItem = (config: TEnhanceRecordRaw) => config;
-
-export const RoutesEnumOptions = asEnum([
-  [
-    'Root',
-    genRouteConfigItem({
-      path: '/',
-      redirect: '/login',
-    }),
-  ],
-  [
-    'Login',
-    genRouteConfigItem({
-      path: '/login',
-      component: () => import('@/views/Login/index.vue'),
-      meta: { title: '登录页', global_nav_show: false, global_tabbar_show: false },
-    }),
-  ],
-  [
-    'Homepage',
-    genRouteConfigItem({
-      path: '/homepage',
-      component: () => import('@/views/Homepage/index.vue'),
-      meta: { title: '首页', global_nav_show_arrow: false },
-    }),
-  ],
-  [
-    'MyHomepage',
-    genRouteConfigItem({
-      path: '/myHomepage',
-      component: () => import('@/views/MyHomepage/index.vue'),
-      meta: { title: '我的' },
-    }),
-  ],
-  [
-    'CustomTabBarPage',
-    genRouteConfigItem({
-      path: '/customTabBarPage',
-      component: () => import('@/views/CustomTabBarPage.vue'),
-      meta: { title: 'CustomTabBarPage', global_tabbar_show: false },
-    }),
-  ],
+export const GlobalControlJumpPathOptions = asEnum([
+  // 登陆相关
+  ['login', '/login'],
+  ['loginExpired', '/login-expired'],
+  // 首页 & tabbar
+  ['homepage', '/homepage'],
+  ['personalCenter', '/personal-center'],
 ] as const);
 
-export const routes = RoutesEnumOptions.values;
+export const routesConfig: TEnhanceRecordRaw[] = [
+  {
+    path: '/',
+    redirect: GlobalControlJumpPathOptions.login.value,
+  },
+  {
+    path: GlobalControlJumpPathOptions.login.value,
+    component: () => import('@/views/Login/index.vue'),
+    meta: { title: '登录页', global_nav_show: false, global_tabbar_show: false },
+  },
+  {
+    path: GlobalControlJumpPathOptions.loginExpired.value,
+    component: () => import('@/views/Login/LoginExpired.vue'),
+    meta: { title: '登陆过期', notNeedLoginPage: true, global_nav_show: false, global_tabbar_show: false },
+  },
+  {
+    path: GlobalControlJumpPathOptions.homepage.value,
+    component: () => import('@/views/Homepage/index.vue'),
+    meta: { title: '首页', global_nav_show_arrow: false },
+  },
+  {
+    path: GlobalControlJumpPathOptions.personalCenter.value,
+    component: () => import('@/views/PersonalCenter/index.vue'),
+    meta: { title: '我的' },
+  },
+  {
+    path: '/customTabBarPage',
+    component: () => import('@/views/CustomTabBarPage.vue'),
+    meta: { title: 'CustomTabBarPage', global_tabbar_show: false },
+  },
+];

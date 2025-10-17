@@ -5,8 +5,7 @@ import { FilterXSS, whiteList } from 'xss';
 
 export * from './validate';
 export * from './format';
-
-export function clearLocalCache() {
+export function clearLocalLoginInfoCache() {
   const UserStore = useUserStore();
   UserStore.removeBaseInfo();
   authController.delAutn();

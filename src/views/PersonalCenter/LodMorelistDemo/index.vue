@@ -165,7 +165,6 @@ const jumpDetailPage = (_info) => {
   display: flex;
   flex-direction: column;
   gap: var(--page-normal-padding);
-  padding: var(--page-normal-padding);
 
   .van-list {
     // // ios soafari 还是要设置 padding，不然列表内容展示不全，

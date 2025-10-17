@@ -1,25 +1,19 @@
 import { showDialog } from 'vant';
 import { authController } from '@/local-cache-data';
-import { clearLocalCache } from '@/utils';
-import { RouteLocationNormalizedGeneric, Router } from 'vue-router';
+import { clearLocalLoginInfoCache } from '@/utils';
+import { RouteLocationNormalizedGeneric, RouteLocationNormalizedLoadedGeneric, Router } from 'vue-router';
 import { useUserStore } from '@/store';
-import { isNullOrUndefined, qsParseAssertString } from '@vmono/utils';
-import { RoutesEnumOptions } from './routesConfig';
+import { qsParseAssertString } from '@vmono/utils';
+import { GlobalControlJumpPathOptions } from '@/router/routesConfig';
 
 export type TThrowLoginExpireMessagePayload = {
   thenLogic: Function;
 };
 
 export function genRouterNavigationGuards(router: Router) {
-  const handleJumpLogin = () => {
-    if (!isNullOrUndefined(authController.getAuth())) {
-      clearLocalCache();
-    }
-  };
-
   const toLoginPageCommonLogic = () => {
-    clearLocalCache();
-    router.push(RoutesEnumOptions.Login.value.path);
+    clearLocalLoginInfoCache();
+    router.push(GlobalControlJumpPathOptions.login.value);
   };
 
   const throwLoginExpireMessage = (payload?: Partial<TThrowLoginExpireMessagePayload>) => {
@@ -33,8 +27,12 @@ export function genRouterNavigationGuards(router: Router) {
     });
   };
 
-  const handleJumpNormalPage = async (params: { to: RouteLocationNormalizedGeneric }) => {
-    const { to } = params;
+  const handleJumpNormalPage = async (params: {
+    from: RouteLocationNormalizedLoadedGeneric;
+    to: RouteLocationNormalizedGeneric;
+  }) => {
+    const UserStore = useUserStore();
+    const { from, to } = params;
     const { token: tokenInQuery } = to.query;
     const { code } = qsParseAssertString(['code']);
     const authToken = authController.getAuth();
@@ -51,21 +49,25 @@ export function genRouterNavigationGuards(router: Router) {
       // 有微信授权码
       // console.log(code, '有微信授权码');
     } else {
-      throwLoginExpireMessage();
+      if (to.path != GlobalControlJumpPathOptions.loginExpired.value) {
+        UserStore.setLoginedJump2Url(`${window.location.origin}${from.fullPath}`);
+        clearLocalLoginInfoCache();
+        return { path: GlobalControlJumpPathOptions.loginExpired.value };
+      }
     }
   };
 
   /**
    * 全局路由前置守卫
    * */
-  router.beforeEach(async (to, _from) => {
+  router.beforeEach(async (to, from) => {
     // 微信公众号授权登录跳转
     if (to.path === '/wxauth') {
       const mobileUrl = import.meta.env.VITE_MOBILE_BASE_URL;
       const { url } = to.query;
       if (!(url as string).includes(mobileUrl)) {
         return {
-          path: RoutesEnumOptions.Login.value.path,
+          path: GlobalControlJumpPathOptions.login.value,
         };
       }
       const { code } = qsParseAssertString(['code']);
@@ -73,10 +75,11 @@ export function genRouterNavigationGuards(router: Router) {
       return;
     }
 
-    if (to.path == RoutesEnumOptions.Login.value.path) {
-      return handleJumpLogin();
+    if (to.path == GlobalControlJumpPathOptions.login.value) {
+      clearLocalLoginInfoCache();
+      return;
     } else {
-      return handleJumpNormalPage({ to });
+      return handleJumpNormalPage({ from, to });
     }
   });
 
