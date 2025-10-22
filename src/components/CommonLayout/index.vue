@@ -1,6 +1,6 @@
 <template>
   <van-nav-bar
-    v-show="LayoutInfoStore.isShowNav"
+    v-if="LayoutInfoStore.isShowNav"
     ref="NavStickyRef"
     :title="title"
     fixed
