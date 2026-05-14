@@ -1,0 +1,403 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "默认模块",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [],
+  "paths": {
+    "/h5/login/mobileNo": {
+      "post": {
+        "summary": "登录",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MobileNoLoginQo",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommonResponseString"
+                },
+                "example": {
+                  "code": 0,
+                  "message": "",
+                  "data": ""
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/h5/login/getCaptcha": {
+      "post": {
+        "summary": "生成滑动验证码",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommonResponseCaptchaResponseImageCaptchaVO"
+                },
+                "example": {
+                  "code": 0,
+                  "message": "",
+                  "data": {
+                    "id": "",
+                    "captcha": {
+                      "type": "",
+                      "backgroundImage": "",
+                      "templateImage": "",
+                      "backgroundImageTag": "",
+                      "templateImageTag": "",
+                      "backgroundImageWidth": 0,
+                      "backgroundImageHeight": 0,
+                      "templateImageWidth": 0,
+                      "templateImageHeight": 0,
+                      "data": {}
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/h5/login/checkCaptcha": {
+      "post": {
+        "summary": "校验滑动验证码",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckCaptchaQO",
+                "description": "id: 生成滑动验证码时返回的 ID,imageCaptchaTrack: 滑动验证码路径"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommonResponseString",
+                  "description": "校验 key，在登录接口使用"
+                },
+                "example": {
+                  "code": 0,
+                  "message": "",
+                  "data": ""
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/h5/logout": {
+      "post": {
+        "summary": "登出",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommonResponseVoid"
+                },
+                "example": {
+                  "code": 0,
+                  "message": "",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CommonResponseVoid": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ExceptionCodeEnum.SUCCESS.getMessageTemplate()"
+          },
+          "data": {
+            "description": "",
+            "type": "null"
+          }
+        }
+      },
+      "EncryptDataDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "加密数据"
+          },
+          "timestamp": {
+            "type": "integer",
+            "description": "时间戳",
+            "format": "int64"
+          },
+          "signature": {
+            "type": "string",
+            "description": "签名"
+          }
+        },
+        "required": ["data", "timestamp", "signature"]
+      },
+      "CommonResponseCaptchaResponseImageCaptchaVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ExceptionCodeEnum.SUCCESS.getMessageTemplate()"
+          },
+          "data": {
+            "$ref": "#/components/schemas/CaptchaResponseImageCaptchaVO",
+            "description": ""
+          }
+        }
+      },
+      "CommonResponseString": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ExceptionCodeEnum.SUCCESS.getMessageTemplate()"
+          },
+          "data": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "CheckCaptchaQO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "生成滑动验证码时返回的 ID"
+          },
+          "username": {
+            "type": "string",
+            "description": "用户名"
+          },
+          "password": {
+            "type": "string",
+            "description": "密码"
+          },
+          "imageCaptchaTrack": {
+            "$ref": "#/components/schemas/ImageCaptchaTrack",
+            "description": "滑动验证码路径"
+          }
+        },
+        "required": ["id", "username", "password"]
+      },
+      "CaptchaResponseImageCaptchaVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": ""
+          },
+          "captcha": {
+            "$ref": "#/components/schemas/ImageCaptchaVO",
+            "description": ""
+          }
+        }
+      },
+      "ImageCaptchaVO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "验证码类型."
+          },
+          "backgroundImage": {
+            "type": "string",
+            "description": "背景图."
+          },
+          "templateImage": {
+            "type": "string",
+            "description": "移动图."
+          },
+          "backgroundImageTag": {
+            "type": "string",
+            "description": "背景图片所属标签."
+          },
+          "templateImageTag": {
+            "type": "string",
+            "description": "模板图片所属标签."
+          },
+          "backgroundImageWidth": {
+            "type": "integer",
+            "description": "背景图片宽度."
+          },
+          "backgroundImageHeight": {
+            "type": "integer",
+            "description": "背景图片高度."
+          },
+          "templateImageWidth": {
+            "type": "integer",
+            "description": "滑动图片宽度."
+          },
+          "templateImageHeight": {
+            "type": "integer",
+            "description": "滑动图片高度."
+          },
+          "data": {
+            "type": "object",
+            "properties": {},
+            "description": "data 扩展数据."
+          }
+        }
+      },
+      "ImageCaptchaTrack": {
+        "type": "object",
+        "properties": {
+          "bgImageWidth": {
+            "type": "integer",
+            "description": "背景图片宽度."
+          },
+          "bgImageHeight": {
+            "type": "integer",
+            "description": "背景图片高度."
+          },
+          "sliderImageWidth": {
+            "type": "integer",
+            "description": "滑块图片宽度."
+          },
+          "sliderImageHeight": {
+            "type": "integer",
+            "description": "滑块图片高度."
+          },
+          "startSlidingTime": {
+            "type": "string",
+            "description": "滑动开始时间."
+          },
+          "endSlidingTime": {
+            "type": "string",
+            "description": "滑动结束时间."
+          },
+          "trackList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Track",
+              "description": "cloud.tianai.captcha.validator.common.model.dto.ImageCaptchaTrack.Track"
+            },
+            "description": "滑动的轨迹."
+          },
+          "data": {
+            "type": "object",
+            "properties": {},
+            "description": "扩展数据，用户传输加密数据等."
+          }
+        }
+      },
+      "Track": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "integer",
+            "description": "x."
+          },
+          "y": {
+            "type": "integer",
+            "description": "y."
+          },
+          "t": {
+            "type": "integer",
+            "description": "时间."
+          },
+          "type": {
+            "type": "string",
+            "description": "类型.",
+            "default": "MOVE"
+          }
+        }
+      },
+      "MobileNoLoginQo": {
+        "type": "object",
+        "properties": {
+          "mobileNo": {
+            "type": "string",
+            "description": ""
+          },
+          "code": {
+            "type": "string",
+            "description": "",
+            "minLength": 6,
+            "maxLength": 6
+          },
+          "checkKey": {
+            "type": "string",
+            "description": ""
+          }
+        },
+        "required": ["mobileNo", "code", "checkKey"]
+      }
+    },
+    "securitySchemes": {}
+  },
+  "servers": [],
+  "security": []
+}

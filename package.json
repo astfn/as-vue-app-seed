@@ -46,6 +46,7 @@
     "husky": "^9.1.7",
     "less": "^4.4.2",
     "lint-staged": "^16.2.4",
+    "openapi-ts-request": "^1.9.2",
     "postcss-px-to-viewport": "^1.1.1",
     "prettier": "^3.6.2",
     "typescript": "^5.9.3",

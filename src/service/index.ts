@@ -31,3 +31,6 @@ export const customRequest = new BetterRequest({
   },
   interceptors,
 });
+
+// 提供给 openapi-ts-request 使用的请求函数
+export default customRequest.openApiRequest.bind(customRequest);

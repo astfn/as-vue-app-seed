@@ -224,6 +224,11 @@ export class BetterRequest {
     return this.ordinaryRequest(config);
   }
 
+  openApiRequest<TResult>(url: string, _config: BetterRequestConfig): Promise<TResult> {
+    const config = { url, ...(_config ?? {}) };
+    return this.request<TResult>(config);
+  }
+
   get<T = any>(config: BetterRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' });
   }
