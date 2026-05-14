@@ -47,6 +47,7 @@ const title = computed(() => (Route?.meta?.title as string) ?? '');
 /**
  * 布局信息的收集
  */
+// @ts-expect-error TS6198: 这些 ref 在 template 中使用
 const { NavStickyRef, TabBarRef } = useCollectLayOutInfoNormalLogic();
 
 watch(title, (newTitle: string) => {
