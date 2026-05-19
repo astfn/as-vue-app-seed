@@ -5,6 +5,7 @@ import { RouteLocationNormalizedGeneric, RouteLocationNormalizedLoadedGeneric, R
 import { useUserStore } from '@/store';
 import { qsParseAssertString } from '@vmono/utils';
 import { GlobalControlJumpPathOptions } from '@/router/routesConfig';
+import { useCommonDataStore } from '@/store/common-data';
 
 export type TThrowLoginExpireMessagePayload = {
   thenLogic: Function;
@@ -13,7 +14,7 @@ export type TThrowLoginExpireMessagePayload = {
 export function genRouterNavigationGuards(router: Router) {
   const toLoginPageCommonLogic = () => {
     clearLocalLoginInfoCache();
-    router.push(GlobalControlJumpPathOptions.login.value);
+    window.location.href = `${window.location.origin}${GlobalControlJumpPathOptions.login.value}`;
   };
 
   const throwLoginExpireMessage = (payload?: Partial<TThrowLoginExpireMessagePayload>) => {
@@ -27,6 +28,14 @@ export function genRouterNavigationGuards(router: Router) {
     });
   };
 
+  const haveTokenCommonLogic = (p: { token: string; to: RouteLocationNormalizedGeneric }) => {
+    const { token } = p;
+    authController.setAutn(token);
+    // 获取系统公共枚举
+    const CommonDataStore = useCommonDataStore();
+    CommonDataStore.fetchSysCodeMap();
+  };
+
   const handleJumpNormalPage = async (params: {
     from: RouteLocationNormalizedLoadedGeneric;
     to: RouteLocationNormalizedGeneric;
@@ -38,12 +47,12 @@ export function genRouterNavigationGuards(router: Router) {
     const authToken = authController.getAuth();
 
     if (tokenInQuery) {
-      authController.setAutn(tokenInQuery as string);
+      haveTokenCommonLogic({ token: tokenInQuery as string, to });
       return;
     }
 
     if (authToken || to.meta.notNeedLoginPage) {
-      authToken && authController.setAutn(authToken);
+      authToken && haveTokenCommonLogic({ token: authToken, to });
       return;
     } else if (code) {
       // 有微信授权码

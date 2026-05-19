@@ -2,7 +2,7 @@
   <van-nav-bar
     v-if="LayoutInfoStore.isShowNav"
     ref="NavStickyRef"
-    :title="title"
+    :title="navTitle"
     fixed
     placeholder
     safe-area-inset-top
@@ -17,7 +17,7 @@
 
   <div class="layout-content">
     <router-view v-slot="{ Component }">
-      <keep-alive>
+      <keep-alive :exclude="/^NoCache_/">
         <component :is="Component" />
       </keep-alive>
     </router-view>
@@ -34,25 +34,20 @@
 import { storeToRefs } from 'pinia';
 import { useLayoutInfoStore } from '@/store/layout-info';
 import { useCollectLayOutInfoNormalLogic } from '@/store/layout-info/utils';
-import { computed, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useCommonDataStore } from '@/store/common-data';
+import { useRouter } from 'vue-router';
 
-const LayoutInfoStore = useLayoutInfoStore();
-const { normalPageHeightCssValue } = storeToRefs(LayoutInfoStore);
+const [Router] = [useRouter()];
 
-const [Route, Router] = [useRoute(), useRouter()];
-
-const title = computed(() => (Route?.meta?.title as string) ?? '');
+const { navTitle } = storeToRefs(useCommonDataStore());
 
 /**
  * 布局信息的收集
  */
 // @ts-expect-error TS6198: 这些 ref 在 template 中使用
 const { NavStickyRef, TabBarRef } = useCollectLayOutInfoNormalLogic();
-
-watch(title, (newTitle: string) => {
-  document.title = newTitle;
-});
+const LayoutInfoStore = useLayoutInfoStore();
+const { normalPageHeightCssValue } = storeToRefs(LayoutInfoStore);
 </script>
 
 <style scoped lang="less">
