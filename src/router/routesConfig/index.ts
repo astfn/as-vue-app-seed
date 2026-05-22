@@ -49,4 +49,20 @@ export const routesConfig: TEnhanceRecordRaw[] = [
     component: () => import('@/views/CustomTabBarPage.vue'),
     meta: { title: 'CustomTabBarPage', global_tabbar_show: false },
   },
+  // 通用的测试页面
+  {
+    path: '/developer_testing',
+    component: () => import('@/views/Test/index.vue'),
+    meta: { title: '开发者测试入口', notNeedLoginPage: true },
+  },
+  {
+    path: '/media_test',
+    component: () => import('@/views/Test/MediaTest.vue'),
+    meta: { title: '媒体功能测试', global_nav_show: true, notNeedLoginPage: true },
+  },
+  {
+    path: '/performance_test',
+    component: () => import('@/views/Test/PerformanceTest.vue'),
+    meta: { title: '性能测试', global_nav_show: true, notNeedLoginPage: true },
+  },
 ];
